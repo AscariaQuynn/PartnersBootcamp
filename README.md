@@ -31,7 +31,7 @@ Automagically, after longer download, preparing, etc..., you have all things at 
       User: postgres  
       Password: postgres  
       Database: postgres
-- **RabbitMQ** is available at "*http://localhost:5692*"
+- **RabbitMQ** is available at "*rabbitmq*"
 - **RabbitMQ Management** plugin at "*http://localhost:15672*" with **Credentials**:
   - Username: guest  
           Password: guest
