@@ -1,0 +1,13 @@
+
+### Basic Hello World POST request
+POST http://localhost:8080/rest/bootcamp/hello
+Content-Type: application/json
+
+{
+  "name": "Jaroslav",
+  "surname": "Svoboda"
+}
+
+### Basic Hello World GET request
+GET http://localhost:8080/rest/bootcamp/hello
+Content-Type: application/json

@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  flyway:
+    image: flyway/flyway
+    container_name: flyway
+    command: -url=jdbc:postgresql://postgres/postgres -schemas=public -user=postgres -password=postgres -connectRetries=5 migrate
+    volumes:
+      - ./src/main/resources:/flyway/sql
+    depends_on:
+      - postgres
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8080"
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+
+  web:
+    build: .
+    container_name: web
+    command: java -jar partners-bootcamp-1.0-SNAPSHOT.jar
+    depends_on:
+      - postgres
+      - flyway
+      - rabbitmq
+    ports:
+      - "8080:8080"
+    volumes:
+    - ./target/partners-bootcamp-1.0-SNAPSHOT.jar:/app/partners-bootcamp-1.0-SNAPSHOT.jar
+
+volumes:
+  pgdata:
+    driver: local
