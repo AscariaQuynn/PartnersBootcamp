@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -29,7 +28,7 @@ public class BusinessBootcampService {
 
     private final RabbitMqProducerService rabbitMqProducerService;
 
-    public HelloDo helloWorld(@RequestBody PersonDo personDo) {
+    public HelloDo helloWorld(PersonDo personDo) {
         // Every visitor needs to be stored
         var personDao = personsRepository.save(new PersonDao(
             personDo.name(),
