@@ -1,8 +1,9 @@
 package cz.devforce.partnersbootcamp.rest;
 
+import cz.devforce.partnersbootcamp.common.DateTimeUtils;
+import cz.devforce.partnersbootcamp.dto.rest.FileUploadStatusRes;
 import cz.devforce.partnersbootcamp.dto.rest.HelloRes;
 import cz.devforce.partnersbootcamp.dto.rest.PersonListRes;
-import cz.devforce.partnersbootcamp.dto.rest.FileUploadStatusRes;
 import cz.devforce.partnersbootcamp.dto.rest.common.PersonRest;
 import cz.devforce.partnersbootcamp.dto.service.PersonDo;
 import cz.devforce.partnersbootcamp.service.FileUploadService;
@@ -30,8 +31,16 @@ public class RestBootcamp {
 
     private final FileUploadService fileUploadService;
 
-    @PostMapping(path = "/hello")
-    public HelloRes helloWorld(@RequestBody PersonRest personReq) {
+    @GetMapping(path = "/hello")
+    public HelloRes helloWorld() {
+        return new HelloRes(
+            "Hello World!",
+            DateTimeUtils.now()
+        );
+    }
+
+    @PostMapping(path = "/hello/person")
+    public HelloRes helloPerson(@RequestBody PersonRest personReq) {
         // skipped mapping, like mapstruct
         var helloDo = helloWorldService.helloWorld(new PersonDo(
             personReq.name(),
@@ -44,8 +53,8 @@ public class RestBootcamp {
         );
     }
 
-    @GetMapping(path = "/hello")
-    public PersonListRes helloWorld() {
+    @GetMapping(path = "/hello/person")
+    public PersonListRes helloPerson() {
         // Keep
         var personListDo = helloWorldService.helloWorld();
         // It
