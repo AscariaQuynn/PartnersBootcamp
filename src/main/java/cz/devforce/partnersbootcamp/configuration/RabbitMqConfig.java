@@ -1,8 +1,7 @@
 package cz.devforce.partnersbootcamp.configuration;
 
-import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Exchange;
+import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -18,22 +17,17 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMqConfig {
 
     @Bean
-    public Queue myQueue(RabbitMqProperties rabbitMqProperties) {
-        return new Queue(rabbitMqProperties.getQueue(), true);
-    }
+    public Declarables directBindings(RabbitMqProperties rabbitMqProperties) {
+        var defaultQueue = new Queue(rabbitMqProperties.getDefaultQueue(), true);
+        var fileUploadedQueue = new Queue(rabbitMqProperties.getFileUploadedQueue(), true);
+        var directExchange = ExchangeBuilder.directExchange(rabbitMqProperties.getExchange()).durable(true).build();
 
-    @Bean
-    public Exchange myExchange(RabbitMqProperties rabbitMqProperties) {
-        return ExchangeBuilder.directExchange(rabbitMqProperties.getExchange()).durable(true).build();
-    }
-
-    @Bean
-    public Binding myBinding(RabbitMqProperties rabbitMqProperties, Queue queue, Exchange exchange) {
-        return BindingBuilder
-            .bind(queue)
-            .to(exchange)
-            .with(rabbitMqProperties.getRoutingKey())
-            .noargs();
+        return new Declarables(
+            defaultQueue,
+            fileUploadedQueue,
+            ExchangeBuilder.directExchange(rabbitMqProperties.getExchange()).durable(true).build(),
+            BindingBuilder.bind(defaultQueue).to(directExchange).with(rabbitMqProperties.getDefaultRoutingKey()).noargs(),
+            BindingBuilder.bind(fileUploadedQueue).to(directExchange).with(rabbitMqProperties.getFileUploadedRoutingKey()).noargs());
     }
 
     @Bean

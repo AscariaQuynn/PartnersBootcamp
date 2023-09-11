@@ -11,3 +11,35 @@ Content-Type: application/json
 ### Basic Hello World GET request
 GET http://localhost:8080/rest/bootcamp/hello
 Content-Type: application/json
+
+
+### Task File Upload request
+POST http://localhost:8080/rest/bootcamp/upload-file
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="sample.pdf"
+
+< ./src/test/resources/sample.pdf
+
+
+
+### Task Get Uploaded File status request
+GET http://localhost:8080/rest/bootcamp/upload-file/1/status
+Content-Type: application/json
+
+### Task Get Uploaded File status request
+GET http://localhost:8080/rest/bootcamp/upload-file/2/status
+Content-Type: application/json
+
+### Task Get Uploaded File status request
+GET http://localhost:8080/rest/bootcamp/upload-file/3/status
+Content-Type: application/json
+
+### Task Get Uploaded File status request
+GET http://localhost:8080/rest/bootcamp/upload-file/4/status
+Content-Type: application/json
+
+### Task Get Uploaded File status request
+GET http://localhost:8080/rest/bootcamp/upload-file/5/status
+Content-Type: application/json
