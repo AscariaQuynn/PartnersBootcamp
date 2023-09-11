@@ -51,5 +51,6 @@ sequenceDiagram
     ProcessingService->>StorageService: get new file
     StorageService->>ProcessingService: returned new file for processing
     ProcessingService->>ProcessingService: do file processing somehow
+    ProcessingService->>StorageService: processed file is stored and marked as processed
     ProcessingService->>MQServiceProducer: file is processed, inform about it whoever is listening
 ```
