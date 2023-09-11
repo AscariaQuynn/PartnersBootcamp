@@ -46,6 +46,16 @@ services:
     volumes:
       - clam:/var/lib/clamav
 
+  wso2am:
+    image: wso2/wso2am
+    container_name: wso2
+    ports:
+      - "8243:8243"
+      - "8280:8280"
+      - "9443:9443"
+    volumes:
+      - wso2:/var/lib/wso2
+
   web:
     build: .
     container_name: web
@@ -61,9 +71,11 @@ services:
       - "8080:8080"
       - "5005:5005"
     volumes:
-    - ./target/partners-bootcamp-1.0-SNAPSHOT.jar:/app/partners-bootcamp-1.0-SNAPSHOT.jar
+    - web:/home/app
 
 volumes:
   pgdata:
     driver: local
   clam:
+  wso2:
+  web:
